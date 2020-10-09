@@ -25,3 +25,23 @@
 #container a {
   text-decoration: none;
 }
+
+// l'image de fond
+.bg-img {
+    padding: 1px;
+    height: 100%;
+    width: 100%;
+    background-image: url('../../assets/bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+// les boutons pour ajouter ou pas
+.add-button {
+    background: #383a3e;
+    position: absolute;
+    bottom: 0;
+    width: 96%;
+    color: #ffffff;
+    margin-left: 2%;
+}
