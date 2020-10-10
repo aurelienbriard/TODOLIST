@@ -38,10 +38,12 @@
 
 // les boutons pour ajouter ou pas
 .add-button {
-    background: #383a3e;
-    position: absolute;
-    bottom: 0;
-    width: 96%;
-    color: #ffffff;
-    margin-left: 2%;
+  position: absolute;
+  bottom: 0;
+}
+
+.corbeille{
+  position: absolute;
+  bottom: 0;
+  margin-left:75%;
 }

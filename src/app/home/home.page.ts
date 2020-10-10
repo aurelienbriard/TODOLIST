@@ -28,7 +28,7 @@ export class HomePage {
   // ------------------------------------ mes fonctions ------------------------------------
 
   // pour ajouter une tache
-  addTaskToFireBase() {
+  addTaskToFirebase() {
     this.afDB.list('Tasks/').push({
       text: this.myTask,
       date: new Date().toISOString(),
@@ -53,7 +53,8 @@ export class HomePage {
         this.tasks.push({
           key: action.key,
           text: action.payload.exportVal().text,
-          hour: action.payload.exportVal().date.substring(11, 16),
+          jour: action.payload.exportVal().date.substring(0, 10),
+          date: action.payload.exportVal().date.substring(11, 16),
           checked: action.payload.exportVal().checked
         });
       });
@@ -71,5 +72,9 @@ export class HomePage {
   this.afDB.list('Tasks/').remove(task.key);
   }
 
+  // supprmier toutes les taches
+  deleteAll(tasks){
+    this.afDB.list('Tasks/').remove(tasks.key);
+  }
 
 }
