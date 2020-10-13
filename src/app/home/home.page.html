@@ -13,7 +13,7 @@
 
 <ion-content>
   <!-- le fonf d'ecran -->
-  <div class="bg-img">
+  <div class="">
 
     <h1><b>Aujourd'hui</b></h1>
     <h5>{{ currentDate }}</h5>
@@ -24,19 +24,19 @@
       <ion-item-sliding>
 
         <ion-item lines="none">
-
+          <!-- la checkbox -->
           <ion-checkbox (ionChange)="changeCheckState(task)" color="success" [(ngModel)]="task.checked" slot="start"></ion-checkbox>
 
-          <ion-label>
-            <h3 *ngIf="!task.checked">{{ task.text }}</h3>
-            <h3 *ngIf="task.checked" style="text-decoration:line-through;">{{ task.text }}</h3>
-            <p>{{ task.jour }} à {{ task.date }}</p>
-          </ion-label>
+          <!-- je gère si la tâche est checked ou non -->
+          <ion-label *ngIf="task.checked; then thenBlock else elseBlock"></ion-label>
+            <ng-template #thenBlock><s>{{ task.text }}{{ task.jour }} à {{ task.date }}</s></ng-template> <!-- si checked, je barre -->
+            <ng-template #elseBlock>{{ task.text }}{{ task.jour }} à {{ task.date }}</ng-template> <!-- else affichage normal -->
 
         </ion-item>
 
         <ion-item-options side="end">
 
+          <!-- la corbeille qui apparait quand je glisse sur une tâche -->
           <ion-item-option color="danger" (click)="deleteTask(task)">
             <ion-icon name="trash" slot="icon-only"></ion-icon>
           </ion-item-option>
@@ -57,18 +57,25 @@
     </ion-card>
 
     <!-- bouton d'ajout -->
-    <ion-button *ngIf="!addTask" (click)="showForm()" shape="round" expand="block" class="add-button">
+    <ion-button *ngIf="!addTask" (click)="showForm()" shape="round" expand="block" class="add-button" color="tertiary">ADD TASK
       <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
     </ion-button>
 
-    <ion-button color="warning" *ngIf="addTask"  (click)="showForm()" shape="round" expand="block" class="add-button">
+    <!-- bouton annuler -->
+    <ion-button  *ngIf="addTask" (click)="showForm()" shape="round" expand="block" class="add-button" color="primary">CANCEL
       <ion-icon name="remove-circle-outline" slot="icon-only"></ion-icon>
     </ion-button>
 
-    <!-- bouton de suppression -->
-    <ion-button (click)="deleteAll(tasks)" color="danger" shape="round" class="corbeille">
-      <ion-icon name="trash" slot="icon-only"></ion-icon>
+    <!-- bouton de suppression de toutes les tâches checked -->
+    <ion-button (click)="deleteCheckedTask(task)" color="warning" shape="round" expand="block" class="deleteChecked">DELETE CHECKED
+      <ion-icon name="trash" slot="start"></ion-icon>
     </ion-button>
+
+    <!-- bouton de suppression de toutes les tâches -->
+    <ion-button (click)="deleteAll(tasks)" color="danger" shape="round" expand="block" class="corbeille">DELETE ALL
+      <ion-icon name="alert-circle-outline" slot="start"></ion-icon>
+    </ion-button>
+
 
   </div>
 

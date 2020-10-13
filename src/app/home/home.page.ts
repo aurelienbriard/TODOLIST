@@ -12,10 +12,12 @@ export class HomePage {
   // ----------------------------  mes variables ---------------------------------
   currentDate: string;
 
-  myTask = '';// je déclare une tache vide
   tasks = []; // le tableau de taches
+  myTask: string;// je déclare une tache en tant que chaine de caractere
 
   addTask: boolean; // un bolléen qui prend vrai ou faux si la tâche est affichée ou non
+  checked:boolean;
+
 
   // le constructeur de la page
   constructor(public afDB: AngularFireDatabase) {
@@ -27,20 +29,26 @@ export class HomePage {
 
   // ------------------------------------ mes fonctions ------------------------------------
 
-  // pour ajouter une tache
-  addTaskToFirebase() {
-    this.afDB.list('Tasks/').push({
-      text: this.myTask,
-      date: new Date().toISOString(),
-      checked: false
-    });
-    this.showForm();
-  }
-
   // pour montrer une tache
   showForm() {
     this.addTask = !this.addTask;
     this.myTask = '';
+  }
+
+  // pour ajouter une tache
+  addTaskToFirebase() {
+
+    if (this.myTask){ // si j'ai quelque chose dans la chaine
+
+      this.afDB.list('Tasks/').push({
+        text: this.myTask, // le text saisi
+        date: new Date().toISOString(), // la date
+        checked: false // un bolléen pour définir qu'une tache n'est pas checked par défaut
+      });
+      this.showForm();
+
+    }
+
   }
 
   // recuperer les taches de la base de donnée
@@ -76,5 +84,17 @@ export class HomePage {
   deleteAll(tasks){
     this.afDB.list('Tasks/').remove(tasks.key);
   }
+
+  // supprimmer les tâches checked
+  deleteCheckedTask(task: any){
+    for (let i = this.tasks.length-1; i >= 0; i--) { // boucle inversée je pars de la fin du tableau
+        console.log (this.tasks[i]);
+      if (this.tasks[i].checked) {
+        this.afDB.list('Tasks/').remove(task.key);
+      }
+      // code...
+    }
+  }
+
 
 }
